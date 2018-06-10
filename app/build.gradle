@@ -18,11 +18,29 @@ android {
     }
 }
 
+repositories {
+    maven { url 'http://developers.quikkly.io/nexus/repository/maven-releases/' }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.android.support:support-v13:27.1.1'
+
+    implementation 'net.quikkly.core:quikklycore-lib:3.4.3@jar'
+    implementation 'net.quikkly.android:quikkly-lib:3.4.3@aar'
+
+    // Pretty color picker
+    implementation ('com.thebluealliance:spectrum:0.7.1') {
+        // Spectrum uses older support libs, override these with latest.
+        exclude group: 'com.android.support'
+    }
+
+    // Transitive dependencies
+    implementation 'commons-io:commons-io:2.5'
+    implementation 'commons-codec:commons-codec:1.11'
+    api 'com.caverock:androidsvg:1.2.1'
+
+
 }
