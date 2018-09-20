@@ -28,8 +28,8 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:support-v13:27.1.1'
 
-    implementation 'net.quikkly.core:quikklycore-lib:3.4.3@jar'
-    implementation 'net.quikkly.android:quikkly-lib:3.4.3@aar'
+    implementation 'net.quikkly.core:quikklycore-lib:3.4.5@jar'
+    implementation 'net.quikkly.android:quikkly-lib:3.4.5@aar'
 
     // Pretty color picker
     implementation ('com.thebluealliance:spectrum:0.7.1') {

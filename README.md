@@ -1,2 +1,3 @@
-# quikkly-android-sample
-Quikkly Android SDK documentation and sample code
+# Quikkly Android SDK documentation and sample app
+
+
