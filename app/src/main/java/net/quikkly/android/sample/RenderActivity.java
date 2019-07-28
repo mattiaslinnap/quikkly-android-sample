@@ -95,7 +95,7 @@ public class RenderActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        renderView = findViewById(R.id.render_tag);
+        renderView = (RenderTagView)findViewById(R.id.render_tag);
 
         renderView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,22 +107,22 @@ public class RenderActivity extends AppCompatActivity {
             }
         });
 
-        templateChoice = findViewById(R.id.render_template);
+        templateChoice = (PopupChoiceView)findViewById(R.id.render_template);
         templateChoice.setTitle("Template");
         templateChoice.setChoices(TEMPLATES);
         templateChoice.setSelectedChangedListener(selectedChangedListener);
 
-        fitChoice = findViewById(R.id.render_fit);
+        fitChoice = (PopupChoiceView)findViewById(R.id.render_fit);
         fitChoice.setTitle("Image Fit");
         fitChoice.setChoices(IMAGE_FITS);
         fitChoice.setSelectedChangedListener(selectedChangedListener);
 
-        joinChoice = findViewById(R.id.render_join);
+        joinChoice = (PopupChoiceView)findViewById(R.id.render_join);
         joinChoice.setTitle("Data Dot Join");
         joinChoice.setChoices(JOINS);
         joinChoice.setSelectedChangedListener(selectedChangedListener);
 
-        dataEdit = findViewById(R.id.render_data);
+        dataEdit = (EditText)findViewById(R.id.render_data);
         dataEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -140,11 +140,11 @@ public class RenderActivity extends AppCompatActivity {
             }
         });
 
-        colorBorder = findViewById(R.id.render_color_border);
-        colorBackground = findViewById(R.id.render_color_background);
-        colorMask = findViewById(R.id.render_color_mask);
-        colorOverlay = findViewById(R.id.render_color_overlay);
-        colorData = findViewById(R.id.render_color_data);
+        colorBorder = (ColorPicker)findViewById(R.id.render_color_border);
+        colorBackground = (ColorPicker)findViewById(R.id.render_color_background);
+        colorMask = (ColorPicker)findViewById(R.id.render_color_mask);
+        colorOverlay = (ColorPicker)findViewById(R.id.render_color_overlay);
+        colorData = (ColorPicker)findViewById(R.id.render_color_data);
 
         colorBorder.setColor(0xff000000);
         colorBackground.setColor(0xff999999);
@@ -174,38 +174,26 @@ public class RenderActivity extends AppCompatActivity {
         String dataString = dataEdit.getText().toString();
         BigInteger data = TextUtils.isEmpty(dataString) ? BigInteger.ZERO : new BigInteger(dataString);
 
+        AndroidSkinBuilder sb = new AndroidSkinBuilder()
+                .setBorderColor(colorBorder.getColorHtmlHex())
+                .setBackgroundColor(colorBackground.getColorHtmlHex())
+                .setOverlayColor(colorOverlay.getColorHtmlHex())
+                .setMaskColor(colorMask.getColorHtmlHex())
+                .setImageFit(fitChoice.getSelected())
+                .setLogoFit(fitChoice.getSelected())
+                //.setAssetsLogo(this, "q.png")
+                .setDotJoin(JOIN_VALUES[joinChoice.getSelected()]);
         try {
-            AndroidSkinBuilder sb = new AndroidSkinBuilder()
-                    .setBorderColor(colorBorder.getColorHtmlHex())
-                    .setBackgroundColor(colorBackground.getColorHtmlHex())
-                    .setOverlayColor(colorOverlay.getColorHtmlHex())
-                    .setMaskColor(colorMask.getColorHtmlHex())
-                    .setImageFit(fitChoice.getSelected())
-                    .setLogoFit(fitChoice.getSelected())
-                    //.setAssetsLogo(this, "q.png")
-                    .setDotJoin(JOIN_VALUES[joinChoice.getSelected()]);
-            if (photo == null) {
-                sb.setAssetsImage(this, "fox.jpg");
-            } else {
+            if (photo != null) {
                 sb.setImage(photo);
-                //sb.setAssetsImage(this, "quikkly.png");
+            } else {
+                sb.setAssetsImage(this, "fox.jpg");
             }
-
-            if (template.startsWith("template0079")) {
-                sb.setDataColors(new String[]{
-                        "#ffffff",
-                        "#333333",
-                });
-            } else if (!template.equals("template0080style1")) {
-                sb.setDataColors(new String[]{
-                        colorData.getColorHtmlHex(),
-                });
-            }
-
-            renderView.setAll(template, data, sb.build());
         } catch (IOException e) {
-            Log.e(Quikkly.TAG, "Cannot read image file", e);
+            Log.e(Quikkly.TAG, "Error loading image", e);
         }
+
+        renderView.setAll(template, data, sb.build());
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -216,7 +204,7 @@ public class RenderActivity extends AppCompatActivity {
                 try {
                     photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
                 } catch (IOException e) {
-                    Log.e(Quikkly.TAG, "Error fetching image from photo gallery", e);
+                    Log.e(Quikkly.TAG, "IOException loading bitmap", e);
                 }
             }
             inputChanged();

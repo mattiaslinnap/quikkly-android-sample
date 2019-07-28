@@ -21,8 +21,9 @@ import java.nio.charset.Charset;
 
 public class Export {
 
-    private static final Charset UTF8 = Charset.forName("UTF-8");
-    private static final String PROVIDER_AUTHORITY = "net.quikkly.android.sample.fileprovider";
+    public static final Charset UTF8 = Charset.forName("UTF-8");
+    public static final String PROVIDER_AUTHORITY = "net.quikkly.android.testingapp.fileprovider";
+
 
     public static void exportSvg(Activity context, String name, String svgContent) {
         if (svgContent == null) {
