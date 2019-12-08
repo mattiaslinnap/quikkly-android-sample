@@ -40,6 +40,11 @@
             android:screenOrientation="portrait"
             />
 
+        <activity
+            android:name="net.quikkly.android.ui.ScanActivity"
+            android:screenOrientation="portrait"
+            />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="net.quikkly.android.sample.fileprovider"
