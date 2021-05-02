@@ -24,6 +24,7 @@ repositories {
         name = "GithubPackagesQuikkly"
         url "https://maven.pkg.github.com/quikkly/quikkly-android-sdk"
         credentials {
+            // property() searches from ~/.gradle/gradle.properties and many .properties files in the project.
             username = System.getenv('GITHUB_USER') ?: property('githubUser')
             password = System.getenv('GITHUB_TOKEN') ?: property('githubPackagesToken')
         }
